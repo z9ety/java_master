@@ -11,6 +11,6 @@ public class MemberService {
 		}
 	}
 	void logout(String id) {
-		System.out.
+		System.out.println("로그아웃 되었습니다.")
 	}
 }
