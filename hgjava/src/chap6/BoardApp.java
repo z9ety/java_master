@@ -140,6 +140,7 @@ public class BoardApp {
 				else {
 					System.out.println("삭제 실패");
 				}
+				break;
 			case 6:
 				System.out.println("프로그램을 종료합니다.");
 				run = false;
