@@ -3,7 +3,7 @@ package todo.p20231129;
 public class MemberService {
 	
 	boolean login(String id, String password) {
-		if(id == "hong" && password "12345") {
+		if(id == "hong" && password == "12345") {
 			return true;
 		}
 		else {
@@ -11,6 +11,6 @@ public class MemberService {
 		}
 	}
 	void logout(String id) {
-		System.out.println("로그아웃 되었습니다.")
+		System.out.println("로그아웃 되었습니다.");
 	}
 }
