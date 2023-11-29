@@ -43,8 +43,8 @@ public class StudentExe {
 	boolean modifyStudent(String no, int eng, int mat) {
 		for(int i=0; i<students.length; i++) {
 			if(students[i] != null && students[i].getStudentNo().equals(no)) {
-				students[i].getStudentEng(eng);
-				students[i].getStudentMath(mat);
+				students[i].getStudentEng();
+				students[i].getStudentMath();
 				return true;
 			}
 		}
