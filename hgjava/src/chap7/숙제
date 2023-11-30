@@ -1,0 +1,13 @@
+
+FriendApp.java
+
+
+부모 <- 자식 :
+Friend.java => Friend[]
+친구: 이름, 연락처
+
+UnivFriend.java => UnivFriend[]
+친구: 이름, 연락처, 학교, 학과
+
+CompFriend.java => CompFriend[]
+친구: 이름, 연락처, 회사, 부서
