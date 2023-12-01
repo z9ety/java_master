@@ -1,4 +1,4 @@
-package chap05;
+package chap5;
 
 //복합적인 형태의 데이터 구조
 class Friend{		//클래스 => 데이터 타입

@@ -1,8 +1,11 @@
 package chap6;
 
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+//import lombok.Data;
+//@Data
 public class Board {
 	private int num;
 	private String title;
