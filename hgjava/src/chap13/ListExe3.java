@@ -21,14 +21,13 @@ public class ListExe3 {
 
 		Scanner sc = new Scanner(System.in);
 		boolean run = true;
-		int no = 1;
+		int no = 0;
 		while (run) {
 			for (int i = 1; i <= members.size(); i++) {
-				if (members.get(i).getMemberName().indexOf(name) != 1) {
-					no += 1;
+				if (members.get(i).getMemberName().indexOf(members.get(i).getMemberName()) != 1) {
+
 				}
 			}
-			no += 1;
 			System.out.println("1.회원등록 2.이름조회 3.포인트변경 4.삭제 5.종료");
 			System.out.println("선택 : ");
 			String menu = sc.nextLine();
@@ -36,11 +35,9 @@ public class ListExe3 {
 			case "1":
 				System.out.println("이름을 입력하십시오");
 				String name = sc.nextLine();
-				members.add(new Member(name, 0));
+				no += 1;
+				members.add(new Member(no, name, 0));
 				System.out.println("등록되었습니다.");
-				//
-//				no += 1;
-				//
 				break;
 			case "2":
 				System.out.println("이름 검색 : ");
@@ -55,6 +52,7 @@ public class ListExe3 {
 				}
 				break;
 			case "3":
+
 				break;
 			case "4":
 				break;

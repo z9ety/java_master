@@ -51,10 +51,10 @@ public class StudentExe {
 		return false;
 	}
 	
-	// 삭제.
-	void removeStudent(String name) {
+	// 삭제.///
+	boolean removeStudent(String name) {
 		for(int i=0; i<students.length; i++) {
-//			if()
+			if()
 		}
 	}
 }//end class

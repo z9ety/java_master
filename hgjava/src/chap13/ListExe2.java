@@ -6,9 +6,9 @@ import java.util.List;
 public class ListExe2 {
 	public static void main(String[] args) {
 		List<Member> members = new ArrayList<>();
-		members.add(new Member("M-001", "È«±æµ¿", 1000));
-		members.add(new Member("M-002", "±è±æµ¿", 1500));
-		members.add(new Member("M-003", "ÃÖÀÎ¼ö", 2000));
+		members.add(new Member(1, "È«±æµ¿", 1000));
+		members.add(new Member(2, "±è±æµ¿", 1500));
+		members.add(new Member(3, "ÃÖÀÎ¼ö", 2000));
 		String search = "±æµ¿";
 		int cnt = 0;
 		for (int i = 0; i < members.size(); i++) {
