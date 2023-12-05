@@ -10,10 +10,10 @@ public class MapExe2 {
 		Map<Member, String> map;
 		map = new HashMap<>();
 
-		map.put(new Member("M001", "홍길동", 100), "경기도 100번지");
-		map.put(new Member("M002", "김민수", 90), "서울시 200번지");
-		map.put(new Member("M003", "박씨", 80), "대전시 300번지");
-		map.put(new Member("M004", "홍길동", 100), "경기도 100번지");
+		map.put(new Member(1, "홍길동", 100), "경기도 100번지");
+		map.put(new Member(2, "김민수", 90), "서울시 200번지");
+		map.put(new Member(3, "박씨", 80), "대전시 300번지");
+		map.put(new Member(4, "홍길동", 100), "경기도 100번지");
 
 		// 1) key를 set 저장.
 		Set<Member> set = map.keySet();

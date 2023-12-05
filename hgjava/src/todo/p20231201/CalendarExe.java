@@ -21,7 +21,7 @@ public class CalendarExe {
 		int week = today.get(Calendar.DAY_OF_WEEK);
 		int monthd = today.getActualMaximum(Calendar.DATE);
 		for(int i=1; i<=monthd; i++) {
-			days[today.get(Calendar.DAY_OF_WEEK)-1] = today.get(Calendar.DATE);
+			days[week-1] = today.get(Calendar.DATE);
 			today.set(i, i);
 		}
 		System.out.println(days);

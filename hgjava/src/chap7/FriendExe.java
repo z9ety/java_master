@@ -3,6 +3,7 @@ package chap7;
 public class FriendExe {
 	Friend[] storage = new Friend[10];
 
+	// 새로 짜보기
 	// 1:등록 2:목록 3조회
 	public boolean addFriend(Friend friend) {
 		return false;

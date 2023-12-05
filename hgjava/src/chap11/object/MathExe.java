@@ -14,8 +14,8 @@ public class MathExe {
 		}
 		// 1 ~ 6 수.
 		// 중복되지 않은 값을 배열에 저장.
-		
-		int[] numbers = new int[5];
+
+		int[] numbers = new int[6];
 		// while문으로
 //		boolean run = true;
 //		while (run) {
@@ -37,7 +37,15 @@ public class MathExe {
 		for (int i = 0; i < numbers.length; i++) {
 			boolean exist = false;
 			int no = 1 + (int) (Math.random() * 6);
-
+			for (int search : numbers) {
+				if (search != no) {
+					numbers[i] = no;
+					System.out.print(numbers[i] + " ");
+				}
+			}
+			if (numbers[i] == 0) {
+				continue;
+			}
 		}
-	}
+	}// end of main.
 }

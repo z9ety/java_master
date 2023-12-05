@@ -2,6 +2,8 @@ package chap7;
 
 import java.util.Scanner;
 
+import javax.naming.directory.SearchResult;
+
 public class FriendApp {
 	static Scanner sc = new Scanner(System.in);
 	static Friend[] storage = new Friend[10];
