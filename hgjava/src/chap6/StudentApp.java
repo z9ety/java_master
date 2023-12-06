@@ -6,7 +6,6 @@ public class StudentApp {
 
 	public static void main(String[] args) {
 		boolean run = true;
-		Student[] students = new Student[100];
 		Scanner scn = new Scanner(System.in);
 		StudentExe exe = new StudentExe();
 		while (run) {
