@@ -19,6 +19,19 @@ public class BoardExe {
 		return comd;
 	}
 
+	void disconn() {
+		try {
+			if (sqlin != null)
+				sqlin.close();
+			if (rs != null)
+				rs.close();
+			if (comd != null)
+				comd.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	ArrayList<Board> getBoardList() {
 		getConn();
 		ArrayList<Board> boards = new ArrayList<Board>();
@@ -37,6 +50,8 @@ public class BoardExe {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			disconn();
 		}
 		return boards;
 	}
@@ -59,6 +74,8 @@ public class BoardExe {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			disconn();
 		}
 		return false;
 	}
@@ -66,9 +83,10 @@ public class BoardExe {
 	boolean addUser(Account adU) {
 		getConn();
 		try {
-			sqlin = comd.prepareStatement("insert into accountinfo values(?,?) ");
+			sqlin = comd.prepareStatement("insert into accountinfo values(?,?,?) ");
 			sqlin.setString(1, adU.getUser_id());
 			sqlin.setString(2, adU.getUser_pw());
+			sqlin.setString(3, adU.getUser_nick());
 
 			int vchange = sqlin.executeUpdate();
 			if (vchange == 1) {
@@ -76,7 +94,87 @@ public class BoardExe {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			disconn();
 		}
 		return false;
+	}
+
+	boolean checkUser(Account user) {
+		getConn();
+		try {
+			sqlin = comd.prepareStatement("select * from accountinfo ");
+			rs = sqlin.executeQuery();
+			while (rs.next()) {
+				if (user.getUser_id().equals(rs.getString("user_id"))
+						&& user.getUser_pw().equals(rs.getString("user_pw"))) {
+					user.setUser_nick(rs.getString("user_nick"));
+					return true;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconn();
+		}
+		return false;
+	}
+
+	boolean modifyID(String before, String after) {
+		getConn();
+		try {
+			sqlin = comd.prepareStatement("update accountinfo set user_id = ? where user_id = ? ");
+			sqlin.setString(1, after);
+			sqlin.setString(2, before);
+			int vchange = sqlin.executeUpdate();
+			if (vchange > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconn();
+		}
+		return false;
+	}
+
+	boolean modifyPW(String before, String after) {
+		getConn();
+		try {
+			sqlin = comd.prepareStatement("update accountinfo set user_pw = ? where user_pw = ? ");
+			sqlin.setString(1, after);
+			sqlin.setString(2, before);
+			int vchange = sqlin.executeUpdate();
+			if (vchange > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconn();
+		}
+		return false;
+	}
+
+	boolean modifyNN(String before, String after) {
+		getConn();
+		try {
+			sqlin = comd.prepareStatement("update accountinfo set user_nick = ? where user_nick = ? ");
+			sqlin.setString(1, after);
+			sqlin.setString(2, before);
+			int vchange = sqlin.executeUpdate();
+			if (vchange > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconn();
+		}
+		return false;
+	}
+
+	ArrayList<Board> getUserBoardRecord() {
+
 	}
 }
