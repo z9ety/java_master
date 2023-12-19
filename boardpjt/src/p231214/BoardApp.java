@@ -1,6 +1,5 @@
 package p231214;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,9 +12,10 @@ public class BoardApp {
 	static BoardExe bexe = new BoardExe();
 	static int page = 1;
 	static int myPR = 1;
-	static boolean main = true, myPage = true, bidCh = true;
+	static boolean main = true, myPage = true, inroof = true;
 	static Account user = null;
-	static ArrayList<Board> boardList = bexe.getBoardList();
+
+	static Board addB = new Board(0, "", "", "", "", "", 0);
 
 	public static void main(String[] args) {
 		while (main) {
@@ -26,24 +26,30 @@ public class BoardApp {
 	static String menu(String sc) { // Ç×½Ã ¸Þ´º ¼±ÅÃ ±â´É
 		switch (sc) {
 		case "¸ÞÀÎÆäÀÌÁö":
-			main = false; // ÀÌÀüÀÇ while¹®À» Á¾·á
+			inside = null;
 			myPage = false;
+			inroof = false;
+			main = false; // ÀÌÀüÀÇ while¹®À» Á¾·á
 			main = true; // ¾Æ·¡ while¹®À» »õ·Î ½ÇÇàÇÏ±âÀ§ÇØ ´Ù½Ã ÁöÁ¤
 			while (main) {
 				main();
 			}
 			break;
 		case "È¸¿ø°¡ÀÔ":
-			main = false;
+			inside = null;
 			myPage = false;
+			inroof = false;
+			main = false;
 			main = true;
 			while (main) {
 				account();
 			}
 			break;
 		case "ÀÚÀ¯°Ô½ÃÆÇ":
-			main = false;
+			inside = null;
 			myPage = false;
+			inroof = false;
+			main = false;
 			main = true;
 			while (main) {
 				fBoard();
@@ -52,7 +58,6 @@ public class BoardApp {
 		case "·Î±×ÀÎ":
 			if (user == null) {
 				main = false;
-				myPage = false;
 				main = true;
 				while (main) {
 					login();
@@ -61,8 +66,10 @@ public class BoardApp {
 			break;
 		case "¸¶ÀÌÆäÀÌÁö":
 			if (user != null) {
-				main = false;
+				inside = null;
 				myPage = false;
+				inroof = false;
+				main = false;
 				main = true;
 				while (main) {
 					myPage();
@@ -71,18 +78,21 @@ public class BoardApp {
 			break;
 		case "·Î±×¾Æ¿ô":
 			if (user != null) {
-				main = false;
+				inside = null;
 				myPage = false;
+				inroof = false;
+				main = false;
 				main = true;
 				while (main) {
 					logout();
 				}
 			}
 			break;
-		case "x":
+		case "endsys;":
 			System.out.println("Å×½ºÆ® Á¾·á");
-			main = false;
 			myPage = false;
+			inroof = false;
+			main = false;
 		} // end of switch.
 		return sc;
 	}
@@ -109,11 +119,11 @@ public class BoardApp {
 					user.getUser_nick());
 		}
 		System.out.printf("\n\n%20s\n\n======================================\n", "È¸¿ø°¡ÀÔ");
-		System.out.print("    ¾ÆÀÌµð : ");
+		System.out.print("\n    ¾ÆÀÌµð : ");
 		String acid = menu(sc.nextLine());
-		System.out.print("    ºñ¹Ð¹øÈ£ : ");
+		System.out.print("\n    ºñ¹Ð¹øÈ£ : ");
 		String acpw = menu(sc.nextLine());
-		System.out.print("    ´Ð³×ÀÓ : ");
+		System.out.print("\n    ´Ð³×ÀÓ : ");
 		String acnick = menu(sc.nextLine());
 		Account newid = new Account(acid, acpw, acnick);
 		if (bexe.addUser(newid)) {
@@ -139,7 +149,6 @@ public class BoardApp {
 		if (bexe.checkUser(user)) {
 			System.out.println("·Î±×ÀÎ ¼º°ø");
 			main = false;
-			myPage = false;
 			main = true;
 			while (main) {
 				main();
@@ -152,8 +161,9 @@ public class BoardApp {
 	static void logout() {
 		user = null;
 		System.out.println("·Î±×¾Æ¿ô µÇ¾ú½À´Ï´Ù");
-		main = false;
 		myPage = false;
+		inroof = false;
+		main = false;
 		main = true;
 		while (main) {
 			main();
@@ -351,10 +361,11 @@ public class BoardApp {
 	}
 
 	static void fBoard() {
+		ArrayList<Board> boardList = bexe.getBoardList();
 		System.out.printf("%s  %s  %s  %s", "[¸ÞÀÎÆäÀÌÁö]", "[È¸¿ø°¡ÀÔ]", "[ÀÚÀ¯°Ô½ÃÆÇ]", "[·Î±×ÀÎ]");
-		System.out.printf("\n%7s\n\n", "ÀÚÀ¯°Ô½ÃÆÇ");
+		System.out.printf("\n\n%61s\n\n", "ÀÚÀ¯°Ô½ÃÆÇ");
 		System.out.println(
-				"==========================================================================================================================\n");
+				"==========================================================================================================================");
 		System.out.printf("  ¹øÈ£\t  |%3sºÐ·ù%3s\t|%3sÁ¦¸ñ%37s\t|%3sÀÛ¼ºÀÚ%7s\t|%3sÀÛ¼ºÀÏ%9s\t|%3sÁ¶È¸\n", "", "", "", "", "", "", "",
 				"", "");
 		for (int L = (page * 10) - 10; L < boardList.size(); L++) {
@@ -365,7 +376,7 @@ public class BoardApp {
 			}
 		}
 		if (boardList.size() == 0) {
-			System.out.println("µî·ÏµÈ ±ÛÀÌ ¾ø½À´Ï´Ù");
+			System.out.printf("\n%52sµî·ÏµÈ ±ÛÀÌ ¾ø½À´Ï´Ù\n\n", "");
 		}
 		System.out.println(
 				"--------------------------------------------------------------------------------------------------------------------------");
@@ -388,41 +399,70 @@ public class BoardApp {
 				main = false;
 				main = true;
 				while (main) {
-					board_Output();
-					System.out.print("%15[ºÐ·ù]\n[1]Áú¹® [2]Àâ´ã [3]°ÇÀÇ»çÇ× [4]±âÅ¸ \n :");
-					String idWord = menu(sc.nextLine());
-					board_idSel(idWord);
-					if (idWord.equals("Áú¹®") || idWord.equals("Àâ´ã") || idWord.equals("°ÇÀÇ»çÇ×") || idWord.equals("±âÅ¸")) {
-						System.out.print("[³»¿ë] : ");
-						String inside = menu(sc.nextLine());
-						System.out.printf("[È®ÀÎ]  [Ãë¼Ò]\n", idWord, title, inside);
-						String inside_submit = menu(sc.nextLine());
-						switch (inside_submit) {
-						case "È®ÀÎ":
-							int no = boardList.size() + 1;
-							Date nowDate = new Date();
-							SimpleDateFormat dForm = new SimpleDateFormat("yy-MM-dd");
-							String date = dForm.format(nowDate);
-							Board addB = new Board(no, idWord, title, inside, user.getUser_nick(), date, 0);
-							if (bexe.addBoard(addB)) {
-								boards.add(addB);
-								System.out.println("µî·Ï ¿Ï·á");
-							} else {
-								System.out.println("µî·Ï ½ÇÆÐ");
-							}
-							break;
-						case "Ãë¼Ò":
-
-							break;
-						}
-					}
+					board_Output(addB.getBd_id(), addB.getBd_title(), inside);
+					menu(insideMenu(sc.nextLine()));
 				}
 			}
 		}
 	}// end of fBoard.
 
-	static String board_idSel(String bi) {
-		switch (bi) {
+	static String insideMenu(String sc) {
+		switch (sc) {
+		case "ºÐ·ù":
+			inroof = false;
+			board_idSel(addB.getBd_id());
+			break;
+		case "Á¦¸ñ":
+			inroof = false;
+			board_title(addB.getBd_title());
+			break;
+		case "³»¿ë":
+			inroof = false;
+			board_inside();
+			break;
+		case ";":
+			inroof = false;
+			main = false;
+			main = true;
+			Date nowDate = new Date();
+			SimpleDateFormat dForm = new SimpleDateFormat("yy-MM-dd");
+			String date = dForm.format(nowDate);
+			String inside1 = "";
+			for (int i = 0; i < inside.size(); i++) {
+				inside1 += inside.get(i) + "\n";
+			}
+			addB.setBd_inside(inside1);
+			addB.setBd_date(date);
+			addB.setBd_writer(user.getUser_nick());
+			addB.setBd_no(boards.size() + 1);
+			if (bexe.addBoard(addB)) {
+				boards.add(addB);
+				System.out.println("µî·Ï ¿Ï·á");
+			} else {
+				System.out.println("µî·Ï ½ÇÆÐ");
+			}
+			inside = null;
+			while (main) {
+				fBoard();
+			}
+			break;
+		case "x":
+			System.out.println("Ãë¼ÒÇÏ¿´½À´Ï´Ù");
+			inside = null;
+			inroof = false;
+			main = false;
+			main = true;
+			while (main) {
+				fBoard();
+			}
+		}
+		return sc;
+	}
+
+	static String board_idSel(String id) {
+		System.out.print("%15[1]Áú¹® [2]Àâ´ã [3]°ÇÀÇ»çÇ× [4]±âÅ¸ \n :");
+		String idWord = menu(insideMenu(sc.nextLine()));
+		switch (idWord) {
 		case "1":
 			return "Áú¹®";
 		case "2":
@@ -432,43 +472,66 @@ public class BoardApp {
 		case "4":
 			return "±âÅ¸";
 		}
-		return null;
+		return "";
 	}
 
 	static String board_title(String bt) {
-
+		System.out.print("[Á¦¸ñ] : ");
+		String title = menu(insideMenu(sc.nextLine()));
+		return title;
 	}
 
-	static void board_Output() {
+	static ArrayList<String> inside = null;
+
+	static void board_inside() {
+		int inleng = 0;
+		main = false;
+		main = true;
+		System.out.print("[³»¿ë] : ");
+		for (int i = 0; i < inside.size(); i++) {
+			System.out.println(inside.get(i));
+		}
+		while (inroof) {
+			String isroof = menu(insideMenu(sc.nextLine()));
+			inleng += isroof.length();
+			if (inleng < 1000) {
+				inside.add(isroof);
+			}
+			if (inleng >= 1000) {
+				System.out.println("³»¿ëÀº 1000ÀÚ¸¦ ³ÑÀ» ¼ö ¾ø½À´Ï´Ù");
+				inleng -= isroof.length();
+			}
+		}
+	}
+
+	static void board_Output(String id, String title, ArrayList<String> ins) {
 		System.out.printf("%s  %s  %s  %s", "[¸ÞÀÎÆäÀÌÁö]", "[È¸¿ø°¡ÀÔ]", "[ÀÚÀ¯°Ô½ÃÆÇ]", "[·Î±×ÀÎ]");
-		System.out.printf("\n%7s\n\n", "ÀÚÀ¯°Ô½ÃÆÇ");
+		System.out.printf("\n\n%61s\n\n", "ÀÚÀ¯°Ô½ÃÆÇ");
 		System.out.println(
 				"==========================================================================================================================\n");
-		System.out.printf("%15s¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤\n", "");
-		System.out.printf("%15s¦¢  <%s>¦¢\n", "", "");
-		System.out.printf("%15s¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥\n\n", "");
+		System.out.printf("%60s<±Û¾²±â>\n\n", "");
+		System.out.printf("%10s¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¨¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤\n", "");
+		System.out.printf("%10s¦¢¡¡[ºÐ·ù] ¦¢<%s>¦¢\n", "", id);
+		System.out.printf("%10s¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦ª¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥\n\n", "");
 		System.out.printf(
-				"%15s¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¨¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤\n",
+				"%10s¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¨¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤\n",
 				"");
-		System.out.printf("%15s¦¢ %s¦¢\n", "", "a");
+		System.out.printf("%10s¦¢ ¡¡[Á¦¸ñ]  ¦¢%s¦¢\n", "", title);
 		System.out.printf(
-				"%15s¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦ª¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥\n\n",
+				"%10s¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦ª¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥\n\n",
 				"");
+		System.out.printf("%12s[³»¿ë]\n", "");
 		System.out.printf(
-				"%15s¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤\n",
+				"%10s¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤\n",
 				"");
-		System.out.printf("%15s¦¢%100s¦¢\n", "", "a");
-		System.out.printf("%15s¦¢%100s¦¢\n", "", "a");
-		System.out.printf("%15s¦¢%100s¦¢\n", "", "a");
-		System.out.printf("%15s¦¢%100s¦¢\n", "", "a");
-		System.out.printf("%15s¦¢%100s¦¢\n", "", "a");
-		System.out.printf("%15s¦¢%100s¦¢\n", "", "a");
-		System.out.printf("%15s¦¢%100s¦¢\n", "", "a");
-		System.out.printf("%15s¦¢%100s¦¢\n", "", "a");
-		System.out.printf("%15s¦¢%100s¦¢\n", "", "a");
-		System.out.printf("%15s¦¢%100s¦¢\n", "", "a");
+		if (inside != null) {
+			for (int i = 0; i < inside.size(); i++) {
+				System.out.printf("%10s¦¢%100s¦¢\n", "", inside.get(i));
+			}
+		}
 		System.out.printf(
-				"%15s¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥\n\n",
+				"%10s¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥\n\n",
 				"");
+		System.out.printf("%55sÈ®ÀÎ[;]%3sÃë¼Ò[x]\n\n", "", "");
 	}
 }// end of class.
