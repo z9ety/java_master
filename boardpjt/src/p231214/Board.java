@@ -36,7 +36,14 @@ public class Board {
 	}
 
 	void showInfo() {
-		System.out.printf("  %-8d|   %-6s\t|   %-40s\t|   %-10s\t|   %-12s\t|   %-5d\n", //
+		System.out.printf("  %-8d|   %-6s\t|   %-40s\t|   %-10s\t|   %-12s\t|   %-5d\n", // 번호\t
+																							// |%3s분류%3s\t|%3s제목%37s\t|%3s작성자%7s\t|%3s작성일%9s\t|%3s조회
 				bd_no, bd_id, bd_title, bd_writer, bd_date, bd_joins);
+	}
+
+	void showReco() {
+		System.out.printf("%31s%-5d|   %-6s\t|   %-23s\t|   %-12s\t|   %-5d\n", // 번호\t
+																				// |%3s분류%3s\t|%3s제목%20s\t|%3s작성일%9s\t|%3s조회
+				"", bd_no, bd_id, bd_title, bd_date, bd_joins);
 	}
 }

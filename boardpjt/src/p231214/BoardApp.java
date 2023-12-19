@@ -12,8 +12,10 @@ public class BoardApp {
 	static ArrayList<Account> accs = new ArrayList<Account>();
 	static BoardExe bexe = new BoardExe();
 	static int page = 1;
-	static boolean main = true, account = true, login = true, myPage = true, fBoard = true;
+	static int myPR = 1;
+	static boolean main = true, myPage = true, bidCh = true;
 	static Account user = null;
+	static ArrayList<Board> boardList = bexe.getBoardList();
 
 	public static void main(String[] args) {
 		while (main) {
@@ -76,6 +78,11 @@ public class BoardApp {
 					logout();
 				}
 			}
+			break;
+		case "x":
+			System.out.println("테스트 종료");
+			main = false;
+			myPage = false;
 		} // end of switch.
 		return sc;
 	}
@@ -123,9 +130,9 @@ public class BoardApp {
 	static void login() {
 		System.out.printf("%s  %s  %s  %s", "[메인페이지]", "[회원가입]", "[자유게시판]", "[로그인]");
 		System.out.printf("\n\n%20s\n\n======================================\n", "로그인");
-		System.out.print("    아이디 : ");
+		System.out.print("\n    아이디 : ");
 		String id = menu(sc.nextLine());
-		System.out.print("    비밀번호 : ");
+		System.out.print("\n    비밀번호 : ");
 		String password = menu(sc.nextLine());
 		String nick = "";
 		user = new Account(id, password, nick);
@@ -183,6 +190,7 @@ public class BoardApp {
 			}
 			break;
 		case "게시내역":
+			myPR = 1;
 			main = false;
 			myPage = false;
 			main = true;
@@ -217,17 +225,14 @@ public class BoardApp {
 		System.out.printf("%40s닉네임 : %s", "", user.getUser_nick());
 		System.out.printf("\n\n%66s[정보수정]\n", "");
 		String modiinfo = menu(myMenu(sc.nextLine()));
-		;
 		myPage = true;
 		while (myPage) {
 			if (modiinfo.equals("정보수정")) {
 				System.out.printf("\n%40s본인확인을 위해 아이디와 비밀번호를 입력해주세요\n", "");
 				System.out.printf("\n%40s아이디 : ", "");
 				String id = menu(myMenu(sc.nextLine()));
-				;
 				System.out.printf("\n%40s비밀번호 : ", "");
 				String pw = menu(myMenu(sc.nextLine()));
-				;
 				if (user.getUser_id().equals(id) && user.getUser_pw().equals(pw)) {
 					System.out.println("인증 완료");
 					System.out.printf("\n%40s<정보수정>", "");
@@ -274,113 +279,196 @@ public class BoardApp {
 	}
 
 	static void boardRecord() {
-		int myPR = 1;
-		System.out.println("\n        [개인정보]");
-		System.out.printf("%66s<게시내역>", "");
+		System.out.println("\n\n        [개인정보]");
+		System.out.printf("%69s<게시내역>", "");
 		System.out.println("\n       <[게시내역]>");
-		System.out.printf("%25s번호\t  |%3s분류%3s\t|%3s제목%20s\t|%3s작성일%9s\t|%3s조회", "", "", "", "", "", "", "", "", "",
-				"");
+		System.out.printf("\n        [회원탈퇴]%15s번호%3s|%3s분류%3s\t|%3s제목%20s\t|%3s작성일%9s\t|%3s조회\n", "", "", "", "", "",
+				"", "", "", "", "", "", "");
+		ArrayList<Board> recordList = bexe.getUserBoardRecord(user.getUser_nick());
+		for (int L = (myPR * 10) - 10; L < recordList.size(); L++) {
+			if (recordList.get(L) != null && L < myPR * 10) {
+				System.out.printf(
+						"%29s----------------------------------------------------------------------------------------\n",
+						"");
+				recordList.get(L).showReco();
+			}
+		}
+
 		System.out.printf(
-				"\n        [회원탈퇴]%10s---------------------------------------------------------------------------------------------------",
-				"");
-		System.out.printf("%68s<%d>", "", myPR);
-		String modiinfo = menu(myMenu(sc.nextLine()));
-		;
+				"%29s----------------------------------------------------------------------------------------\n", "");
+		if (recordList.size() == 0) {
+			System.out.printf("\n%65s등록된 글이 없습니다\n", "");
+		}
+		System.out.println("\n");
+		System.out.printf("\n%71s<%d>\n", "", myPR);
+		String recPage = menu(myMenu(sc.nextLine()));
+		switch (recPage) {
+		case ">":
+			if (myPR * 10 < recordList.size())
+				myPR++;
+			break;
+		case "<":
+			if (myPR > 1)
+				myPR--;
+		}
 	}
 
 	static void unAccount() {
-
+		System.out.println("\n\n        [개인정보]");
+		System.out.printf("%66s<회원탈퇴>", "");
+		System.out.println("\n        [게시내역]");
+		System.out.printf("%40s본인확인을 위해 아이디와 비밀번호를 입력해주세요", "");
+		System.out.printf("\n       <[회원탈퇴]>", "");
+		System.out.printf("\n%40s아이디 : ", "");
+		String id = menu(myMenu(sc.nextLine()));
+		System.out.printf("\n%40s비밀번호 : ", "");
+		String pw = menu(myMenu(sc.nextLine()));
+		if (user.getUser_id().equals(id) && user.getUser_pw().equals(pw)) {
+			System.out.println("정말로 탈퇴하시겠습니까? [네]/[아니오]");
+			String yn = menu(myMenu(sc.nextLine()));
+			switch (yn) {
+			case "네":
+				bexe.deleteAccount(user.getUser_id());
+				user = null;
+				System.out.println("회원탈퇴 되었습니다");
+				main = false;
+				myPage = false;
+				main = true;
+				while (main) {
+					main();
+				}
+				break;
+			case "아니오":
+				System.out.println("취소되었습니다");
+				main = false;
+				myPage = false;
+				main = true;
+				while (main) {
+					myPage();
+				}
+			}
+		}
 	}
 
 	static void fBoard() {
 		System.out.printf("%s  %s  %s  %s", "[메인페이지]", "[회원가입]", "[자유게시판]", "[로그인]");
 		System.out.printf("\n%7s\n\n", "자유게시판");
+		System.out.println(
+				"==========================================================================================================================\n");
 		System.out.printf("  번호\t  |%3s분류%3s\t|%3s제목%37s\t|%3s작성자%7s\t|%3s작성일%9s\t|%3s조회\n", "", "", "", "", "", "", "",
 				"", "");
-		ArrayList<Board> boardList = bexe.getBoardList();
 		for (int L = (page * 10) - 10; L < boardList.size(); L++) {
 			if (boardList.get(L) != null && L < page * 10) {
 				System.out.println(
 						"--------------------------------------------------------------------------------------------------------------------------");
 				boardList.get(L).showInfo();
 			}
-//		else if (boardList.isEmpty(bexe) == true) {
-//		System.out.println("등록된 글이 없습니다");
-//	}
+		}
+		if (boardList.size() == 0) {
+			System.out.println("등록된 글이 없습니다");
 		}
 		System.out.println(
 				"--------------------------------------------------------------------------------------------------------------------------");
 		System.out.printf("  %-55s<%d>\n", "[글쓰기]", page);
-		String sel = sc.nextLine();
+		String sel = menu(sc.nextLine());
 		switch (sel) {
 		case ">":
-			page++;
+			if (page * 10 <= boardList.size())
+				page++;
 			break;
 		case "<":
-			page--;
+			if (page > 1)
+				page--;
 			break;
 		case "글쓰기":
-			boolean inid = true, subch = true;
-			String idWord = "";
-			while (inid) {
-				System.out.print("분류를 선택하세요\n 1.질문 2.잡담 3.건의사항 4.기타 : ");
-				String board_id = sc.nextLine();
-				switch (board_id) {
-				case "1":
-					idWord = "질문";
-					inid = false;
-					break;
-				case "2":
-					idWord = "잡담";
-					inid = false;
-					break;
-				case "3":
-					idWord = "건의사항";
-					inid = false;
-					break;
-				case "4":
-					idWord = "기타";
-					inid = false;
-					break;
-				default:
-					System.out.println("잘못된 값입니다");
-				}
-			}
-			System.out.printf("분류 : [%s]\n제목 : ", idWord);
-			String title = sc.nextLine();
-			System.out.printf("분류 : [%s]\t제목 : %s\n내용 : ", idWord, title);
-			String inside = sc.nextLine();
-			while (subch) {
-				System.out.printf("분류 : [%s]\t제목 : %s\n내용 : %s\n\n\n  [확인]  [취소]\n", idWord, title, inside);
-				String inside_submit = sc.nextLine();
-				switch (inside_submit) {
-				case "확인":
-					int no = boardList.size() + 1;
-					Date nowDate = new Date();
-					SimpleDateFormat dForm = new SimpleDateFormat("yy-MM-dd");
-					String date = dForm.format(nowDate);
-					Board addB = new Board(no, idWord, title, inside, id, date, 0);
-					if (bexe.addBoard(addB)) {
-						boards.add(addB);
-						System.out.println("등록 완료");
-					} else {
-						System.out.println("등록 실패");
-					}
-					break;
-				case "취소":
-					subch = false;
-					break;
-				default:
-					System.out.println("'확인'이나 '취소'를 입력하시면 됩니다");
-				}
-			}
-			break;
-		case "x":
-			System.out.println("테스트 종료.");
-			fBoard = false;
-			break;
-		default:
+			if (user == null) {
+				System.out.println("로그인이 필요합니다");
+				break;
+			} else {
+				main = false;
+				main = true;
+				while (main) {
+					board_Output();
+					System.out.print("%15[분류]\n[1]질문 [2]잡담 [3]건의사항 [4]기타 \n :");
+					String idWord = menu(sc.nextLine());
+					board_idSel(idWord);
+					if (idWord.equals("질문") || idWord.equals("잡담") || idWord.equals("건의사항") || idWord.equals("기타")) {
+						System.out.print("[내용] : ");
+						String inside = menu(sc.nextLine());
+						System.out.printf("[확인]  [취소]\n", idWord, title, inside);
+						String inside_submit = menu(sc.nextLine());
+						switch (inside_submit) {
+						case "확인":
+							int no = boardList.size() + 1;
+							Date nowDate = new Date();
+							SimpleDateFormat dForm = new SimpleDateFormat("yy-MM-dd");
+							String date = dForm.format(nowDate);
+							Board addB = new Board(no, idWord, title, inside, user.getUser_nick(), date, 0);
+							if (bexe.addBoard(addB)) {
+								boards.add(addB);
+								System.out.println("등록 완료");
+							} else {
+								System.out.println("등록 실패");
+							}
+							break;
+						case "취소":
 
+							break;
+						}
+					}
+				}
+			}
 		}
+	}// end of fBoard.
+
+	static String board_idSel(String bi) {
+		switch (bi) {
+		case "1":
+			return "질문";
+		case "2":
+			return "잡담";
+		case "3":
+			return "건의사항";
+		case "4":
+			return "기타";
+		}
+		return null;
 	}
-}
+
+	static String board_title(String bt) {
+
+	}
+
+	static void board_Output() {
+		System.out.printf("%s  %s  %s  %s", "[메인페이지]", "[회원가입]", "[자유게시판]", "[로그인]");
+		System.out.printf("\n%7s\n\n", "자유게시판");
+		System.out.println(
+				"==========================================================================================================================\n");
+		System.out.printf("%15s┌─────────────┐\n", "");
+		System.out.printf("%15s│  <%s>│\n", "", "");
+		System.out.printf("%15s└─────────────┘\n\n", "");
+		System.out.printf(
+				"%15s┌─────────┬──────────────────────────────────────────────────────────────────────────────────┐\n",
+				"");
+		System.out.printf("%15s│ %s│\n", "", "a");
+		System.out.printf(
+				"%15s└─────────┴──────────────────────────────────────────────────────────────────────────────────┘\n\n",
+				"");
+		System.out.printf(
+				"%15s┌────────────────────────────────────────────────────────────────────────────────────────────────────┐\n",
+				"");
+		System.out.printf("%15s│%100s│\n", "", "a");
+		System.out.printf("%15s│%100s│\n", "", "a");
+		System.out.printf("%15s│%100s│\n", "", "a");
+		System.out.printf("%15s│%100s│\n", "", "a");
+		System.out.printf("%15s│%100s│\n", "", "a");
+		System.out.printf("%15s│%100s│\n", "", "a");
+		System.out.printf("%15s│%100s│\n", "", "a");
+		System.out.printf("%15s│%100s│\n", "", "a");
+		System.out.printf("%15s│%100s│\n", "", "a");
+		System.out.printf("%15s│%100s│\n", "", "a");
+		System.out.printf(
+				"%15s└────────────────────────────────────────────────────────────────────────────────────────────────────┘\n\n",
+				"");
+	}
+}// end of class.

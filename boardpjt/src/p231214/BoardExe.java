@@ -174,7 +174,40 @@ public class BoardExe {
 		return false;
 	}
 
-	ArrayList<Board> getUserBoardRecord() {
+	ArrayList<Board> getUserBoardRecord(String user) {
+		getConn();
+		ArrayList<Board> records = new ArrayList<Board>();
+		try {
+			sqlin = comd.prepareStatement("select * from board where board_writer = ? order by 1 ");
+			sqlin.setString(1, user);
+			rs = sqlin.executeQuery();
+			while (rs.next()) {
+				Board record = new Board();
+				record.setBd_no(rs.getInt("board_no"));
+				record.setBd_id(rs.getString("board_id"));
+				record.setBd_title(rs.getString("board_title"));
+				record.setBd_writer(rs.getString("board_writer"));
+				record.setBd_date(rs.getString("board_date"));
+				record.setBd_joins(rs.getInt("board_joins"));
+				records.add(record);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconn();
+		}
+		return records;
+	}
 
+	void deleteAccount(String userid) {
+		getConn();
+		try {
+			sqlin = comd.prepareStatement("delete accountinfo where user_id = ? ");
+			sqlin.setString(1, userid);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconn();
+		}
 	}
 }
