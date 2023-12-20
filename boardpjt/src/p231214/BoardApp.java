@@ -14,29 +14,31 @@ public class BoardApp {
 	static int myPR = 1;
 	static boolean main = true, myPage = true, inroof = true;
 	static Account user = null;
-
 	static Board addB = new Board(0, "", "", "", "", "", 0);
+	static ArrayList<String> inside = new ArrayList<String>();
 
 	public static void main(String[] args) {
+//		user = new Account("ㅁㅁㅁ", "123", "관리자");
 		while (main) {
-			main();
+			mainp();
+//			fBoard();
 		}
 	}// end of main.
 
 	static String menu(String sc) { // 항시 메뉴 선택 기능
 		switch (sc) {
 		case "메인페이지":
-			inside = null;
+			inside = new ArrayList<String>();
 			myPage = false;
 			inroof = false;
 			main = false; // 이전의 while문을 종료
 			main = true; // 아래 while문을 새로 실행하기위해 다시 지정
 			while (main) {
-				main();
+				mainp();
 			}
 			break;
 		case "회원가입":
-			inside = null;
+			inside = new ArrayList<String>();
 			myPage = false;
 			inroof = false;
 			main = false;
@@ -46,7 +48,7 @@ public class BoardApp {
 			}
 			break;
 		case "자유게시판":
-			inside = null;
+			inside = new ArrayList<String>();
 			myPage = false;
 			inroof = false;
 			main = false;
@@ -66,7 +68,7 @@ public class BoardApp {
 			break;
 		case "마이페이지":
 			if (user != null) {
-				inside = null;
+				inside = new ArrayList<String>();
 				myPage = false;
 				inroof = false;
 				main = false;
@@ -78,7 +80,7 @@ public class BoardApp {
 			break;
 		case "로그아웃":
 			if (user != null) {
-				inside = null;
+				inside = new ArrayList<String>();
 				myPage = false;
 				inroof = false;
 				main = false;
@@ -97,7 +99,7 @@ public class BoardApp {
 		return sc;
 	}
 
-	static void main() {
+	static void mainp() {
 		if (user == null) {
 			System.out.printf("%s  %s  %s  %s", "[메인페이지]", "[회원가입]", "[자유게시판]", "[로그인]");
 		} else {
@@ -115,7 +117,7 @@ public class BoardApp {
 		if (user == null) {
 			System.out.printf("%s  %s  %s  %s", "[메인페이지]", "[회원가입]", "[자유게시판]", "[로그인]");
 		} else {
-			System.out.printf("%s  %s  %s  %s  %s  %s 님 환영합니다", "[메인페이지]", "[회원가입]", "[자유게시판]", "[로그아웃]", "[마이페이지]",
+			System.out.printf("%s  %s  %s  %s  %s  %s님 환영합니다", "[메인페이지]", "[회원가입]", "[자유게시판]", "[로그아웃]", "[마이페이지]",
 					user.getUser_nick());
 		}
 		System.out.printf("\n\n%20s\n\n======================================\n", "회원가입");
@@ -144,14 +146,13 @@ public class BoardApp {
 		String id = menu(sc.nextLine());
 		System.out.print("\n    비밀번호 : ");
 		String password = menu(sc.nextLine());
-		String nick = "";
-		user = new Account(id, password, nick);
+		user = new Account(id, password, "");
 		if (bexe.checkUser(user)) {
 			System.out.println("로그인 성공");
 			main = false;
 			main = true;
 			while (main) {
-				main();
+				mainp();
 			}
 		} else {
 			System.out.println("로그인 실패 : 아이디 혹은 비밀번호가 틀립니다.");
@@ -166,7 +167,7 @@ public class BoardApp {
 		main = false;
 		main = true;
 		while (main) {
-			main();
+			mainp();
 		}
 	}
 
@@ -345,7 +346,7 @@ public class BoardApp {
 				myPage = false;
 				main = true;
 				while (main) {
-					main();
+					mainp();
 				}
 				break;
 			case "아니오":
@@ -362,7 +363,12 @@ public class BoardApp {
 
 	static void fBoard() {
 		ArrayList<Board> boardList = bexe.getBoardList();
-		System.out.printf("%s  %s  %s  %s", "[메인페이지]", "[회원가입]", "[자유게시판]", "[로그인]");
+		if (user == null) {
+			System.out.printf("%s  %s  %s  %s", "[메인페이지]", "[회원가입]", "[자유게시판]", "[로그인]");
+		} else {
+			System.out.printf("%s  %s  %s  %s  %s  %s님 환영합니다", "[메인페이지]", "[회원가입]", "[자유게시판]", "[로그아웃]", "[마이페이지]",
+					user.getUser_nick());
+		}
 		System.out.printf("\n\n%61s\n\n", "자유게시판");
 		System.out.println(
 				"==========================================================================================================================");
@@ -398,27 +404,73 @@ public class BoardApp {
 			} else {
 				main = false;
 				main = true;
+
 				while (main) {
-					board_Output(addB.getBd_id(), addB.getBd_title(), inside);
+					board_Output(addB.getBd_id(), addB.getBd_title(), addB.getBd_inside());
 					menu(insideMenu(sc.nextLine()));
 				}
 			}
+		default:
+//				for(int i=0; i<boardList.size();i++) {
+//					if(boardList.get(i).getBd_no() == sel) {
+//						
+//					}
+//					
+//				}
 		}
 	}// end of fBoard.
 
-	static String insideMenu(String sc) {
-		switch (sc) {
+	static String insideMenu(String scn) {
+		switch (scn) {
 		case "분류":
 			inroof = false;
-			board_idSel(addB.getBd_id());
+			System.out.printf("%10s[1]질문 [2]잡담 [3]건의사항 [4]기타 : ", "", "");
+			String idWord = menu(insideMenu(sc.nextLine()));
+			switch (idWord) {
+			case "1":
+				scn = "질문";
+				break;
+			case "2":
+				scn = "잡담";
+				break;
+			case "3":
+				scn = "건의사항";
+				break;
+			case "4":
+				scn = "기타";
+			}
+			addB.setBd_id(scn);
 			break;
 		case "제목":
 			inroof = false;
-			board_title(addB.getBd_title());
+			System.out.printf("%10s[제목] : ", "");
+			String title = menu(insideMenu(sc.nextLine()));
+			addB.setBd_title(title);
 			break;
 		case "내용":
 			inroof = false;
-			board_inside();
+			int inleng = 0;
+			if (inside != null) {
+				for (int i = 0; i < inside.size(); i++) {
+					System.out.println(inside.get(i));
+				}
+			}
+			main = false;
+			main = true;
+			System.out.printf("%10s[내용] : ", "");
+			inroof = true;
+			while (inroof) {
+				String isroof = menu(insideMenu(sc.nextLine()));
+				System.out.printf("%15s　　", "");
+				inleng += isroof.length();
+				if (inleng < 1000) {
+					inside.add(isroof);
+				}
+				if (inleng >= 1000) {
+					System.out.println("내용은 1000자를 넘을 수 없습니다");
+					inleng -= isroof.length();
+				}
+			}
 			break;
 		case ";":
 			inroof = false;
@@ -428,27 +480,30 @@ public class BoardApp {
 			SimpleDateFormat dForm = new SimpleDateFormat("yy-MM-dd");
 			String date = dForm.format(nowDate);
 			String inside1 = "";
+			ArrayList<Board> boardList = bexe.getBoardList();
 			for (int i = 0; i < inside.size(); i++) {
 				inside1 += inside.get(i) + "\n";
 			}
 			addB.setBd_inside(inside1);
 			addB.setBd_date(date);
 			addB.setBd_writer(user.getUser_nick());
-			addB.setBd_no(boards.size() + 1);
-			if (bexe.addBoard(addB)) {
+			addB.setBd_no(boardList.size() + 1);
+			if (bexe.addBoard(addB) && addB != null) {
 				boards.add(addB);
 				System.out.println("등록 완료");
 			} else {
 				System.out.println("등록 실패");
 			}
-			inside = null;
+			inside = new ArrayList<String>();
+			addB = new Board(0, "", "", "", "", "", 0);
 			while (main) {
 				fBoard();
 			}
 			break;
 		case "x":
 			System.out.println("취소하였습니다");
-			inside = null;
+			inside = new ArrayList<String>();
+			;
 			inroof = false;
 			main = false;
 			main = true;
@@ -456,67 +511,33 @@ public class BoardApp {
 				fBoard();
 			}
 		}
-		return sc;
+		return scn;
 	}
 
-	static String board_idSel(String id) {
-		System.out.print("%15[1]질문 [2]잡담 [3]건의사항 [4]기타 \n :");
-		String idWord = menu(insideMenu(sc.nextLine()));
-		switch (idWord) {
-		case "1":
-			return "질문";
-		case "2":
-			return "잡담";
-		case "3":
-			return "건의사항";
-		case "4":
-			return "기타";
-		}
-		return "";
-	}
-
-	static String board_title(String bt) {
-		System.out.print("[제목] : ");
-		String title = menu(insideMenu(sc.nextLine()));
-		return title;
-	}
-
-	static ArrayList<String> inside = null;
-
-	static void board_inside() {
-		int inleng = 0;
-		main = false;
-		main = true;
-		System.out.print("[내용] : ");
-		for (int i = 0; i < inside.size(); i++) {
-			System.out.println(inside.get(i));
-		}
-		while (inroof) {
-			String isroof = menu(insideMenu(sc.nextLine()));
-			inleng += isroof.length();
-			if (inleng < 1000) {
-				inside.add(isroof);
-			}
-			if (inleng >= 1000) {
-				System.out.println("내용은 1000자를 넘을 수 없습니다");
-				inleng -= isroof.length();
-			}
-		}
-	}
-
-	static void board_Output(String id, String title, ArrayList<String> ins) {
-		System.out.printf("%s  %s  %s  %s", "[메인페이지]", "[회원가입]", "[자유게시판]", "[로그인]");
+	static void board_Output(String id, String title, String ins) {
+		String iblank = "　".repeat((id.length() - 1) / 2);
+		String ispace = " ".repeat(4 - (id.length()));
+			System.out.printf("%s  %s  %s  %s  %s  %s님 환영합니다", "[메인페이지]", "[회원가입]", "[자유게시판]", "[로그아웃]", "[마이페이지]",
+					user.getUser_nick());
 		System.out.printf("\n\n%61s\n\n", "자유게시판");
 		System.out.println(
 				"==========================================================================================================================\n");
 		System.out.printf("%60s<글쓰기>\n\n", "");
-		System.out.printf("%10s┌───────┬──────────┐\n", "");
-		System.out.printf("%10s│　[분류] │<%s>│\n", "", id);
-		System.out.printf("%10s└───────┴──────────┘\n\n", "");
+		System.out.printf("%10s┌───────┬─────────────┐\n", "");
+		if (id == "") {
+			System.out.printf("%10s│　[분류] │%13s│\n", "", "");
+		} else {
+			System.out.printf("%10s│　[분류] │%s│\n", "", ispace + "　" + "<" + id + ">" + iblank + ispace + " ");
+		}
+		System.out.printf("%10s└───────┴─────────────┘\n\n", "");
 		System.out.printf(
 				"%10s┌─────────┬──────────────────────────────────────────────────────────────────────────────────┐\n",
 				"");
-		System.out.printf("%10s│ 　[제목]  │%s│\n", "", title);
+		if (title == "") {
+			System.out.printf("%10s│ 　[제목]  │%82s│\n", "", "");
+		} else {
+			System.out.printf("%10s│ 　[제목]  │%s│\n", "", title);
+		}
 		System.out.printf(
 				"%10s└─────────┴──────────────────────────────────────────────────────────────────────────────────┘\n\n",
 				"");
@@ -524,10 +545,16 @@ public class BoardApp {
 		System.out.printf(
 				"%10s┌────────────────────────────────────────────────────────────────────────────────────────────────────┐\n",
 				"");
-		if (inside != null) {
+		if (inside.size() != 0) {
 			for (int i = 0; i < inside.size(); i++) {
-				System.out.printf("%10s│%100s│\n", "", inside.get(i));
+				System.out.printf("%10s│ %s│\n", "", inside.get(i));
 			}
+		} else {
+			System.out.printf("%10s│%100s│\n", "", "");
+			System.out.printf("%10s│%100s│\n", "", "");
+			System.out.printf("%10s│%100s│\n", "", "");
+			System.out.printf("%10s│%100s│\n", "", "");
+			System.out.printf("%10s│%100s│\n", "", "");
 		}
 		System.out.printf(
 				"%10s└────────────────────────────────────────────────────────────────────────────────────────────────────┘\n\n",

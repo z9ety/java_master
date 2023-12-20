@@ -9,7 +9,7 @@ public class BoardExe {
 	ResultSet rs;
 
 	Connection getConn() {
-		String url = "jdbc:oracle:thin:@localhost:1521:xe"; // DB 호스트 정보
+		String url = "jdbc:oracle:thin:@192.168.0.17:1521:xe"; // DB 호스트 정보
 		try {
 			Class.forName("oracle.jdbc.OracleDriver"); // jar 파일에서 클래스정보를 가져옴
 			comd = DriverManager.getConnection(url, "dev", "dev"); // DB 호스트 정보, 사용자 이름, 비밀번호
@@ -209,5 +209,25 @@ public class BoardExe {
 		} finally {
 			disconn();
 		}
+	}
+
+	Board getInside(String bno) {
+		getConn();
+		Board ins = new Board();
+		try {
+			sqlin = comd.prepareStatement("select * board where board_no = ? ");
+			sqlin.setString(1, bno);
+			rs = sqlin.executeQuery();
+			ins.setBd_id(rs.getString("board_id"));
+			ins.setBd_title(rs.getString("board_title"));
+			ins.setBd_writer(rs.getString("board_writer"));
+			ins.setBd_date(rs.getString("board_date"));
+			ins.setBd_joins(rs.getInt("board_joins"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconn();
+		}
+		return ins;
 	}
 }
