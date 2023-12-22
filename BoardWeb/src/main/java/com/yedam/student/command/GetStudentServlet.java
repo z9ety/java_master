@@ -1,4 +1,4 @@
-package common;
+package com.yedam.student.command;
 
 import java.io.IOException;
 
@@ -8,8 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yedam.student.service.StudentService;
+import com.yedam.student.serviceImpl.StudentServiceImpl;
+import com.yedam.student.vo.Student;
+
 @WebServlet("/getStudentServlet")
-public class getStudentServlet extends HttpServlet {
+public class GetStudentServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -18,7 +22,7 @@ public class getStudentServlet extends HttpServlet {
 
 		String sno = req.getParameter("sno");
 
-		StudentDAO dao = new StudentDAO();
+		StudentService dao = new StudentServiceImpl();
 		Student std = dao.getStudent(sno);
 
 		String str = "<table border='1'>";

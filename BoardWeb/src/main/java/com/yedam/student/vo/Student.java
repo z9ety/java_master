@@ -1,15 +1,18 @@
-package common;
+package com.yedam.student.vo;
 
+import lombok.Data;
+
+@Data
 public class Student {
 	private String stuNo;
 	private String stuName;
 	private int stuEng;
 	private int stuMath;
 
-	Student() {
+	public Student() {
 	}
 
-	Student(String stuNo, String stuName, int stuEng, int stuMath) {
+	public Student(String stuNo, String stuName, int stuEng, int stuMath) {
 		this.stuNo = stuNo;
 		this.stuName = stuName;
 		this.stuEng = stuEng;

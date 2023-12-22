@@ -1,4 +1,4 @@
-package common;
+package com.yedam.student.command;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,6 +8,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.yedam.student.mapper.StudentDAO;
+import com.yedam.student.service.StudentService;
+import com.yedam.student.serviceImpl.StudentServiceImpl;
+import com.yedam.student.serviceImpl.StudentServiceMybatis;
+import com.yedam.student.vo.Student;
 
 @WebServlet("/MyInfoServlet")
 public class MyInfoServlet extends HttpServlet { // º≠∫Ì∏¥ ¡§∫∏∏¶ ∞°¡Æø»
@@ -33,18 +39,18 @@ public class MyInfoServlet extends HttpServlet { // º≠∫Ì∏¥ ¡§∫∏∏¶ ∞°¡Æø»
 
 		// db ¿˙¿Â.
 		Student std = new Student(sno, sname, Integer.parseInt(escore), Integer.parseInt(mscore));
-		StudentDAO dao = new StudentDAO();
+		StudentService dao = new StudentServiceMybatis();
 		boolean done = dao.addStudent(std);
-		
+
 		PrintWriter out = response.getWriter();
 		// out.append("Served at: ").append(request.getContextPath());
 		out.println("<h3>Welcome Servlet, æ»≥Á«œººø‰</h3>");
 		out.println("<a href='index.html'>¿Œµ¶Ω∫ ¿Ãµø</a>");
-		
-		if(done) {
+
+		if (done) {
 			out.println("<script>alert('OK'); location.href='student/studentList.jsp'; </script>");
-		}else {
-		out.println("<script>alert('Fail'); location.href='index.html'; </script>");
+		} else {
+			out.println("<script>alert('Fail'); location.href='index.html'; </script>");
 		}
 	}
 

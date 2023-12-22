@@ -1,0 +1,20 @@
+co.yedam
+	- common : 공통용도.
+	- board - vo :
+	- board - service : 기능정의(interface)
+	- board - serviceImpl : 구현객체(class)
+	- board - mapper : 데이터베이스 처리
+	- board - command :
+	
+	- student - vo :
+	- student - service : 기능정의(interface)
+	- student - serviceImpl : 구현객체(class)
+	- student - mapper : 데이터베이스 처리
+	- student - command :
+	
+	- member - vo :
+	- member - service : 기능정의(interface)
+	- member - serviceImpl : 구현객체(class)
+	- member - mapper : 데이터베이스 처리
+	- member - command :
+	
