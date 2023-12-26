@@ -12,7 +12,11 @@ public class BoardVO {
 	private int clickCnt;
 	private String image;
 
-	public BoardVO(int no, String title, String cont,String writer) {
+	public BoardVO() {
+
+	}
+
+	public BoardVO(int no, String title, String cont, String writer) {
 		this.boardNo = no;
 		this.title = title;
 		this.content = cont;

@@ -21,6 +21,6 @@
 		delete from board where board_no = #{bno}
 	</delete>
 	<update id="updateCnt">
-		update board set click_cnt + 1 where board_no = #{bno}
+		update board set click_cnt = click_cnt + 1 where board_no = #{bno}
 	</update>
 </mapper>

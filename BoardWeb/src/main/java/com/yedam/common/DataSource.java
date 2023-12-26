@@ -15,7 +15,7 @@ public class DataSource {
 
 	// SqlSessionFactory 반환.
 	public static SqlSessionFactory getInstance() {
-		String resource = "config/mybatis-config.xml";
+		String resource = "config/mybatis-config.xml"; // db 연결 정보 및 alias 지정
 		InputStream inputStream = null;
 		try {
 			inputStream = Resources.getResourceAsStream(resource);
