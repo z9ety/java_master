@@ -1,0 +1,12 @@
+
+<mapper namespace="com.yedam.member.mapper.MemberMapper"> // 아래에서 사용할 메소드 및 인수를 받아올 명령집(mapper.java)경로
+
+	<select id="selectMember" resultType="member"> // id : Mapper 파일의 메소드 명, resultType : mybatis-config에서 설정한 VO생성자 양식 경로 키워드
+		select * from member where id = #{id} and pw = #{pw} // SQL에 입력될 명령문. #{x}는 mapper.java에서 받아온 해당 메소드의 인수명을 써서 받아옴
+	</select>
+</mapper>
+
+-interface는 정의만 내릴수 있고 구현은 불가능.
+
+*Interface를 사용하는 경우 : 코드에서 둘 이상의 위치, 특히 둘 이상의 파일 또는 함수에서 사용될 객체의 속성 및 함수를 생성해야하는 경우에 사용합니다.
+ 특정 유형의 객체들이 동일한 속성을 가지고 있을때 Interface를 통해 이를 쉽게 구현할 수 있습니다.

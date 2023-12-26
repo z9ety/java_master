@@ -8,7 +8,7 @@
 	List<BoardVO> list = (List<BoardVO>) request.getAttribute("boardList");
 	%>
 	<h3>게시판</h3>
-	<table border="1">
+	<table class="table">
 		<thead>
 			<tr>
 				<th>글번호</th>

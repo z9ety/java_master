@@ -1,0 +1,13 @@
+
+public class MemberServiceImpl implements MemberService { 
+== implements : 해당하는 인터페이스에 정의된 메소드를 내려받아 구현. class명(MemberServiceImpl)에 마우스를 올리면 간단히 내려받을 수 있음 ==
+
+	SqlSession session = DataSource.getInstance().openSession(true); // SQL DB로 스트리밍중인 인스턴스를 열어줌
+	MemberMapper mapper = session.getMapper(MemberMapper.class); // 스트리밍 인스턴스에 mapper(Interface)의 정보로 임시 class를 구현
+
+	@Override
+	public MemberVO login(String id, String pw) { // MemberService에 정의된 메소드
+		return mapper.selectMember(id, pw); // 임시 class를 통해 selectMember구현
+	}
+
+}

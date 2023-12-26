@@ -28,28 +28,28 @@ public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	// 생명주기 : 생성자 -> init -> service() -> destroy()
-	Map<String, Control> map; // <키( , 밸류(서블릿)>
+	Map<String, Control> map; // <키(?) , 밸류(서블릿)>
 
 	public FrontController() {
 		System.out.println("생성자 호출.");
-		map = new HashMap<String, Control>(); // ??
+		map = new HashMap<String, Control>(); // 키에는 String, 값은 요청과 응답(서블릿)을 받음
 	}
 
 	@Override
-	public void init(ServletConfig config) throws ServletException { // ??
+	public void init(ServletConfig config) throws ServletException { // init은 가장 먼저 초기화를 위해 실행되는. 즉 초기값을 지정하기 위해 있는 함수
 		System.out.println("init() 호출.");
 //		map.put("/main.do", new MainControl());
 //		map.put("/sub.do", new SubControl());
 		// 게시판관련.
-		map.put("/boardList.do", new BoardListControl()); // /boardList.do라는 url을 입력하면 BoardListControl을 호출
+		map.put("/boardList.do", new BoardListControl()); // /boardList.do라는 url이 입력되면 BoardListControl을 실행
 		map.put("/boardForm.do", new BoardFormControl());
 		map.put("/addBoard.do", new AddBoardControl());
 		map.put("/getBoard.do", new GetBoardControl());
 		map.put("/modifyForm.do", new ModifyFormControl());
 		map.put("/modifyBoard.do", new ModifyBoardControl());
 		map.put("/removeForm.do", new RemoveFormControl());
-		map.put("/removeBoard.do",new RemoveBoardControl());
-		
+		map.put("/removeBoard.do", new RemoveBoardControl());
+
 		// 회원관련.
 		map.put("/loginForm.do", new LoginFormControl());
 		map.put("/login.do", new LoginControl());
@@ -57,18 +57,21 @@ public class FrontController extends HttpServlet {
 	}
 
 	@Override
-	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException { // map에 url 범위 지정
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException { // map에
+																													// url
+																													// 범위
+																													// 지정
 		req.setCharacterEncoding("utf-8");
 
 		System.out.println("service() 호출.");
 		// http:..localhost/BoardWeb/main.do ->mainControl.
 		String url = req.getRequestURI(); // /BoardWeb/main.do
 		String context = req.getContextPath(); // /BoardWeb
-		String path = url.substring(context.length());
+		String path = url.substring(context.length()); // 파라미터 인식 범위 지정
 		System.out.println(path);
 
-		Control ctrl = map.get(path);
-		ctrl.execute(req, resp);
+		Control ctrl = map.get(path); // 파라미터를 키값으로 받고
+		ctrl.execute(req, resp); // 웹으로 값을 출력
 	}
 
 	@Override

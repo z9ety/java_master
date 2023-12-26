@@ -15,14 +15,14 @@ public class DataSource {
 
 	// SqlSessionFactory 반환.
 	public static SqlSessionFactory getInstance() {
-		String resource = "config/mybatis-config.xml"; // db 연결 정보 및 alias 지정
+		String resource = "config/mybatis-config.xml"; // SQL DB 연결 정보 및 alias 지정
 		InputStream inputStream = null;
 		try {
-			inputStream = Resources.getResourceAsStream(resource);
+			inputStream = Resources.getResourceAsStream(resource); //mybatis-config의 정보를 입력 받아 스트리밍
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		sqlSF = new SqlSessionFactoryBuilder().build(inputStream);
-		return sqlSF; // mybatis-config의 정보를 받아옴
+		sqlSF = new SqlSessionFactoryBuilder().build(inputStream); //스트리밍된 정보를 기반으로 새로운 DB 인스턴스를 생성
+		return sqlSF;
 	}
 }
