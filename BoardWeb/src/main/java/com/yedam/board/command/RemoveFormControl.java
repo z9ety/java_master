@@ -23,9 +23,9 @@ public class RemoveFormControl implements Control {
 		req.setAttribute("vo", vo);
 
 		// 페이지 이동(forward)
-		RequestDispatcher rd = req.getRequestDispatcher("board/remBoardForm.jsp"); // ??
+		RequestDispatcher rd = req.getRequestDispatcher("board/remBoardForm.tiles"); // ??
 		try {
-			rd.forward(req, resp); // ??
+			rd.forward(req, resp);
 		} catch (ServletException | IOException e) {
 			e.printStackTrace();
 		}

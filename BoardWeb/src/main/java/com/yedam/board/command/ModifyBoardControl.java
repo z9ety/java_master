@@ -19,12 +19,13 @@ public class ModifyBoardControl implements Control {
 		BoardService svc = new BoardServiceMybatis();
 		String bno = req.getParameter("bno");
 		String content = req.getParameter("content");
-		BoardVO vo = svc.getBoard(Integer.parseInt(bno));
+		BoardVO vo = new BoardVO();
+		vo.setBoardNo(Integer.parseInt(bno));
 		vo.setContent(content);
 		
 		if (svc.modBoard(vo)) {
 			try {
-				resp.sendRedirect("getBoard.do");
+				resp.sendRedirect("getBoard.do?bno=" + bno);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

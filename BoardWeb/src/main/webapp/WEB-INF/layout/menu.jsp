@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -14,26 +15,30 @@
         <link href="css/styles.css" rel="stylesheet" />
     </head>
     <body>
-    <%
-    String logId = (String) session.getAttribute("logId");
-    String logName = (String) session.getAttribute("logName");
-    %>
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
+            <!-- 주석에 특수문자나 자바태그영역안에 주석을 달면 오류 -->
             <div class="border-end bg-white" id="sidebar-wrapper">
-            	<% if(logName == null) {%>
-                <div class="sidebar-heading border-bottom bg-light">Start Bootstrap(Guest)</div>
-                <%} else { %>
-                <div class="sidebar-heading border-bottom bg-light">Start Bootstrap(<%=logName %>)</div>
-                <%} %>
+            	
+            	<c:choose>
+            		<c:when test="${empty logName }">
+                		<div class="sidebar-heading border-bottom bg-light">Start Bootstrap(Guest)</div>
+            		</c:when>
+            		<c:otherwise>
+                		<div class="sidebar-heading border-bottom bg-light">Start Bootstrap(${logName })</div>
+            		</c:otherwise>
+            	</c:choose>
                 <div class="list-group list-group-flush">
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="boardList.do">글목록</a>
-                    <%if (logId == null) { %>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="loginForm.do">로그인</a>
-                    <% } else { %>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="logout.do">로그아웃</a>
-                    <% } %>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="boardForm.do">글등록</a>
+                    <c:choose>
+                    	<c:when test="${empty logId }">
+		                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="loginForm.do">로그인</a>
+                    	</c:when>
+                    	<c:otherwise>
+        		            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="logout.do">로그아웃</a>
+		                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="boardForm.do">글등록</a>
+                    	</c:otherwise>
+                    </c:choose>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Events</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Status</a>

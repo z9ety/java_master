@@ -1,4 +1,5 @@
-<%@page import="common.*"%>
+<%@page import="com.yedam.student.vo.Student"%>
+<%@page import="com.yedam.student.mapper.StudentDAO"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
