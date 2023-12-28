@@ -17,8 +17,8 @@
 	</definition>
 	
 	
-	<definition name="productinfo" template="/WEB-INF/product/listlayout/listTemplate.jsp">
-		<put-attribute name="list" value="/WEB-INF/product/infolayout/list.jsp" />
+	<definition name="productinfo" template="/WEB-INF/product/infolayout/infoTemplate.jsp">
+		<put-attribute name="list" value="/WEB-INF/product/productList.jsp" />
 	</definition>
 	<definition name="WILDCARD:pinfo/*" extends="productinfo">
 		<put-attribute name="body" value="/WEB-INF/product/{1}.jsp" />
