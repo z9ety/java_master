@@ -20,7 +20,7 @@ public class RemoveBoardControl implements Control {
 
 		if (svc.remBoard(bno)) {
 			try {
-				resp.sendRedirect("getBoard.do");
+				resp.sendRedirect("boardList.do");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

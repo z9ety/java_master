@@ -1,0 +1,5 @@
+1. web.xml
+2. index.jsp > boardList.do
+3. Frontcontrol > service실행 > control에 boardList.do가 담겨짐 > execute
+4. BoardListControl > SQL에서 List정보를 가져옴 > tiles.xml에 정의된 경로대로 board/boardList.tiles(jsp)를 열어줌
+5. template.jsp를 같이 실행 > 태그 라이브러리(taglib)를 불러와서 자바 명령어를 읽어옴 > tiles.xml에 정의된 명령대로 jsp파일들을 붙여서 열어줌

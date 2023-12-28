@@ -26,7 +26,7 @@ public class BoardListControl implements Control {
 		// 페이지 이동(forward)
 		RequestDispatcher rd = req.getRequestDispatcher("board/boardList.tiles"); // ??
 		try {
-			rd.forward(req, resp); // ??
+			rd.forward(req, resp);
 		} catch (ServletException | IOException e) {
 			e.printStackTrace();
 		}
