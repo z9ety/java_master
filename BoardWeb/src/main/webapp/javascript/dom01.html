@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 표. -->
+    <!-- <table>
+        <thead>
+            <tr>
+                <th>아이디</th>
+                <th>이름</th>
+                <th>전화번호</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>user1</td>
+                <td>홍길동</td>
+                <td>010-1111</td>
+            </tr>
+        </tbody>
+    </table> -->
+    <script>
+        const fruits = ['apple', 'banana', 'cherry'];
+        //배열 for..of..
+        for (let li of fruits) {
+
+        }
+
+
+
+
+
+
+
+
+
+        let table = document.createElement('table');
+        let thead = document.createElement('thead');
+        let tr1 = document.createElement('tr');
+       
+        let tbody = document.createElement('tbody');
+        let tr2 = document.createElement('tr');
+       
+       
+        document.querySelector('body').appendChild(table);
+        document.querySelector('table').appendChild(thead);
+        let theadtr = document.querySelector('thead').appendChild(tr1);
+        
+        document.querySelector('table').appendChild(tbody);
+        let tbodytr = document.querySelector('tbody').appendChild(tr2);
+     
+        const th = ['아이디', '이름', '전화번호'];
+        const td = ['user1', '홍길동', '010-1111'];
+        for (let text of th) {
+            let ths = document.createElement('th');
+            theadtr.appendChild(ths);
+            ths.innerText = text;
+        }
+        for (let text of td) {
+            let tds = document.createElement('td');
+            tbodytr.appendChild(tds);
+            tds.innerText = text;
+        }
+
+
+
+        console.log(window);
+        let btn = document.createElement('button'); //
+        btn.innerText = 'Btn';
+        btn.addEventListener('click', function () {
+            alert('click ok.');
+        })
+
+        console.log(btn);
+
+        document.querySelector('body').appendChild(btn);
+        let style = document.createElement('style');
+        style.innerText += 'table, th, td {';
+        style.innerText += 'border : 1px solid #000;';
+        style.innerText += 'border-collapse : collapse;';
+        style.innerText += '}';
+        style.innerText += 'th {';
+        style.innerText += 'background : #ccc;';
+        style.innerText += '}';
+        document.querySelector('head').appendChild(style);
+
+    </script>
+</body>
+
+</html>

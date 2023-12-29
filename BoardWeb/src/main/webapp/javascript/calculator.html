@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="container">
+        <div id="calculator">
+            <input type="number" id="input">
+            <button id="plus">+</button>
+            <button id="minus">-</button>
+            <button id="multiply">*</button>
+            <button id="divide">/</button>
+            <button id="equal">=</button>
+        </div>
+    </div>
+    <script>
+        let input = document.getElementById('input');
+        let equal = document.getElementById('equal');
+        let plus = document.getElementById('plus');
+        let minus = document.getElementById('minus');
+        let multiply = document.getElementById('multiply');
+        let divide = document.getElementById('divide');
+        let equalsum = null;
+        let result = null;
+        let cal = "";
+        plus.addEventListener('click', function(){
+            equalsum = input.value + "+";
+            console.log(equalsum);
+            input.value = '';
+        });
+        minus.addEventListener('click', function(){
+            equalsum += input.value + '-';
+            input.value = '';
+        });
+        multiply.addEventListener('click', function(){
+            equalsum += input.value + '*';
+            input.value = '';
+        });
+        divide.addEventListener('click', function(){
+            equalsum += input.value + '/';
+            input.value = '';
+        });
+        equal.addEventListener('click', function(){
+            result = equalsum + input.value.parseInt;
+            console.log(result);
+            input.value = parseInt(result);
+            equalsum = null;
+        });
+    </script>
+</body>
+
+</html>
