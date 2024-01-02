@@ -7,8 +7,8 @@
     <title>todo/20231229.html</title>
     <style>
         #show {
-            width: 300px;
-            height: 250px;
+            width: 280px;
+            height: 400px;
             background-color: aqua;
         }
         span {
@@ -16,19 +16,45 @@
             width: 80px;
             height: 30px;
             background-color: yellow;
+            margin: 0px 10px 10px 0px;
         }
     </style>
 </head>
 
 <body>
+
+    <input type="text" name="userValue" id="userValue">
+    <button id="delBtn">삭제</button>
     <div id="show">
-        <span>Lorem</span>
-        <span>ipsum,</span>
     </div>
     <script>
         const words = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat voluptas maxime iste tempore totam quam sequi fugit, suscipit veritatis quae inventore nobis commodi eveniet! Perferendis corrupti repellendus enim voluptate ullam!'
 
         const wordAry = words.split(' ');
+        //화면상에 span 생성.
+        let show = document.getElementById('show');
+        wordAry.forEach(function (word){
+            let span = document.createElement('span');
+            span.innerText = word;
+            show.appendChild(span);
+        });
+
+        //id=delBtn에 클릭.
+        document.getElementById('delBtn').addEventListener('click', function (){
+            //사용자의 입력값 == 화면상에 span요소를 가져와서 span.remove();
+            //사용자 입력화면 초기화.
+            // let inputd = document.querySelector('#userValue').value;
+            let inputd = document.querySelector('input[name=userValue]').value;
+            let spanAll = document.querySelectorAll('span');
+            for(let item of spanAll) {
+            console.log(item);
+                if(inputd == item.innerText){
+                    item.remove();
+                }
+            };
+            //초기화.
+            document.querySelector('input[name=userValue]').value = '';
+        });
     </script>
 </body>
 

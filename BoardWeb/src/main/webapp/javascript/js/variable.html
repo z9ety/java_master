@@ -1,78 +1,87 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>variable.html</title>
 </head>
+
 <body>
-    <p></p>
+    <p>Hello</p>
+    <!-- <script src="variable.js"> -->
+    <div id="show">
+
+    </div>
     <script>
-
-        // var: 함수레벨, let, const: block 레벨.
-        var name = 'Hwang';
-        // function myfunc()
-        {
-            var name = 'Hong';
-            console.log(name);
+        function myfunc() {
+            console.log('myfunc call.');
+            return 'undefined';
         }
-        // myfunc();
-        console.log(name);
+        // null, undefined.
+        let num = null;
+        console.log(typeof num);
 
-        let age = 20;
-        // function myfunc2()
-        {
-            let age = 22;
-            console.log(age);
-        }
-        // myfunc2();
-        console.log(age);
-        obj.show();
-        document.body.addEventListener('click',function(){
-            console.log(this);
-        })
-        // 1. 전역영역: window 객체.
-        // 2. 함수: window 객체.
-        // 3. 객체: object
-        // 4. 이벤트: 이벤트 실행 대상.
-        //console.log(this);
+        let num1;
+        let num2 = null;
+        console.log(num1 == num2); //값, 타입 비교.
 
-        // let show = 'Hello';
-
-        // function show(){
-        //     console.log('show');
-
-        // }
-
-        // () 실행.
-        let show = function(){
-            console.log('show');
-            // return undefined;
-            return '반환값';
-        }
-        console.log(show());
-
-        (function(){
-            console.log('익명함수');
-        })();
-
-        // 함수명명 규칙.
-        function showMyName(){
-            console.log('홍길동');
+        if (!num1) { // null, undefined, '', 0 => false.
+            console.log('num값은 false입니다');
         }
 
-        // 상수선언.
-        const height = 167.9;
-        // height = 169;
+        // parseInt, parseFloat, NaN
+        num1 = 'a30';
+        // console.log(num1, typeof )
 
-        const friend = {
-            name: '홍길동',
-            phone: '010-1111'
+        num1 = parseInt(num1);
+        console.log(num1, typeof num1);
+
+        // 삼항연산자.
+        let result = (3 > 2) ? 'true' : 'false';
+
+        //
+        console.log(!!'문자열');
+
+        //비트연산자.
+        console.log(12 | 3); // 11000
+        // 12 => 1100
+        // 3 => 0011
+
+        // for ~ of
+        // let friends = [{ name: '라이언', age: 5 }, { name: '어피치', age: 4 }],
+        for (let friend of friends) {
+            console.log('이름:' + friend.name + ',나이:' + friend.age);
         }
-        friend.phone = '010-2222';
 
-        // friend = {}
-        
+        // forEach
+        friends[friends.length] = { name: '콘', age: 2 };
+        friends[friends.length] = { name: '무지', age: 3 };
+        friends.forEach(function (friend, idx, friendsAry) {
+            // if () {
+            //     console.log(friend, idx, friendsAry);
+            // }
+
+        });
+        // 3살 넘는 친구들만 표로 출력.
+        let tlist = document.querySelector('#list');
+        friends.forEach(makeFriend);
+
+        function makeFriend(friend, idx, friendsAry) {
+            if (friend['age'] > 3) {
+                // if(idx %2 == 0) {
+                // if (idx == friendsAry.length - 1){
+                console.log(friend, idx, friendsAry);
+                let tr = document.createElement('tr');
+                for (let prop in friend){
+                    let td = document. createElement('td');
+                    td.innerText = friend[prop];
+                    tr.appendChild(td);
+                }
+                tlist.appendChild(tr);
+            }
+        };
         </script>
 </body>
+
 </html>
