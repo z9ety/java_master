@@ -11,7 +11,7 @@ import com.yedam.common.DataSource;
 public class BoardServiceMybatis implements BoardService {
 	
 	SqlSession session = DataSource.getInstance().openSession(true); //세션 인스턴스 생성
-	BoardMapper mapper = session.getMapper(BoardMapper.class); // xml파일과 구분위해 .class
+	BoardMapper mapper = session.getMapper(BoardMapper.class); 
 	
 	@Override
 	public List<BoardVO> boardList() {

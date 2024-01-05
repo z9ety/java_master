@@ -28,7 +28,7 @@ public class LoginControl implements Control {
 		if (vo != null) { // SQL에 값이 존재할 경우
 			// 세션객체 로그인정보 저장.
 			HttpSession session = req.getSession();
-			session.setAttribute("logId", vo.getId()); // 세션객체에 로그인아이디값
+			session.setAttribute("logId", vo.getId()); // 세션객체에 로그인아이디값을 저장.
 			session.setAttribute("logName", vo.getName());
 			// 권한 확인
 			session.setAttribute("responsibility", vo.getResponsibility());
