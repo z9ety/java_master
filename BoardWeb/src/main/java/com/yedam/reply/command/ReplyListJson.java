@@ -20,13 +20,13 @@ public class ReplyListJson implements Control {
 		resp.setContentType("text/json;charset=utf-8");
 		String bno = req.getParameter("bno");
 		String page = req.getParameter("page");
-		
+		page = page == null ? "1" : page;
 		ReplyService svc = new ReplyServiceImpl();
 		List<ReplyVO> list = svc.replyListPaging(Integer.parseInt(bno), Integer.parseInt(page));
 		int cnt = list.size();
 		String json = "[";
 		for (int i = 0; i < cnt; i++) {
-			json += "{\"replyNo\":" +list.get(i).getReplyNo()+",\"boardNo\":"+list.get(i).getBoardNo()+",\"reply\":\""+list.get(i).getReply()+"\",\"name\":\""+list.get(i).getName()+"\"}";
+			json += "{\"replyNo\":" +list.get(i).getReplyNo()+",\"boardNo\":"+list.get(i).getBoardNo()+",\"reply\":\""+list.get(i).getReply()+"\",\"name\":\""+list.get(i).getName()+"\",\"replyDate\":\"" + list.get(i).getReplyDate() + "\"}";
 			if(i != cnt-1) {
 				json += ",";
 			}
