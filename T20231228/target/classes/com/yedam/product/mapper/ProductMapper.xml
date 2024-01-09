@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yedam.product.mapper.ProductMapper">
+  <select id="selectList" resultType="product">
+  	select product_code, product_name, product_desc, to_char(origin_price, '9,999') "originPrice", to_char(sale_price, '9,999') "salePrice", like_it, image from product order by 1
+  </select>
+  <select id="getProduct" resultType="product" parameterType="String">
+  	select product_code, product_name, product_desc, to_char(origin_price, '9,999') "originPrice", to_char(sale_price, '9,999') "salePrice", like_it, image from product where product_code = '${pno}'
+  </select>
+</mapper>

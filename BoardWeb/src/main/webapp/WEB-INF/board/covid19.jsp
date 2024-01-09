@@ -32,7 +32,7 @@
 		xhtp.onload = function() {
 			let placeData = JSON.parse(xhtp.responseText);
 			// tr > td * 4 
-			placeData.forEach(hospi => {
+			placeData.data.forEach(hospi => {
 				let tr = document.createElement('tr');
 				tr.addEventListener('click', function(){
 				//	location.href = 'map.do?x=' + center.lat + '&y='+ center.lng;

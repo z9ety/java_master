@@ -1,104 +1,103 @@
 <%@page import="com.yedam.board.vo.BoardVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <style>
-	li {
-		list-style: none;
-	}
-	.pagination {
-	  display: inline-block;
-	}
-	
-	.pagination a {
-	  color: black;
-	  float: left;
-	  padding: 8px 16px;
-	  text-decoration: none;
-	}
-	
-	.pagination a.active {
-	  background-color: #4CAF50;
-	  color: white;
-	}
-	
-	.pagination a:hover:not(.active) {background-color: #ddd;}
-	</style>
+li {
+	list-style: none;
+}
 
-	<h3>상세화면</h3>
+.pagination {
+	display: inline-block;
+}
 
-	<form name="myForm" action="modifyForm.do">
-		<input type="hidden" name="bno" value="${vo.boardNo}">
-		<table class="table">
-			<tbody>
-				<tr>
-					<td>글번호</td>
-					<td colspan="3">${vo.boardNo}</td>
-				</tr>
-				<tr>
-					<td>제목</td>
-					<td colspan="3">${vo.title}</td>
-				</tr>
-				<tr>
-					<td>내용</td>
-					<td colspan="3">${vo.content}</td>
-				</tr>
-				<tr>
-					<td>작성자</td>
-					<td colspan="3">${vo.writer}</td>
-				</tr>
-				<tr>
-					<td>작성일</td>
-					<td><fmt:formatDate pattern="yyyy-MM-dd" value ="${vo.writerDate}" /></td>
-					<td>조회수</td>
-					<td>${vo.clickCnt}</td>
-				</tr>
-				<tr>
-					<td>이미지</td>
-					<td colspan="3">
-						<c:if test="${!empty vo.image }">
-							<img width="150px" src="images/${vo.image }">
-						</c:if>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="4" align="center">
-						<c:choose>
-							<c:when test="${logName eq vo.writer }">
-								<input type="submit" value="수정">
-								<input type="button" onclick="deleteFun()" value="삭제">
-							</c:when>
-							<c:otherwise>
-								<input type="submit" disabled value="수정">
-								<input type="button" disabled onclick="deleteFun()" value="삭제">
-							</c:otherwise>
-						</c:choose>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
-	<br>
-	<div id="input">
-	댓글내용: <input type="text" id="content"><button id="addReply">등록</button>
+.pagination a {
+	color: black;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+}
+
+.pagination a.active {
+	background-color: #4CAF50;
+	color: white;
+}
+
+.pagination a:hover:not(.active) {
+	background-color: #ddd;
+}
+</style>
+
+<h3>상세화면</h3>
+
+<form name="myForm" action="modifyForm.do">
+	<input type="hidden" name="bno" value="${vo.boardNo}">
+	<table class="table">
+		<tbody>
+			<tr>
+				<td>글번호</td>
+				<td colspan="3">${vo.boardNo}</td>
+			</tr>
+			<tr>
+				<td>제목</td>
+				<td colspan="3">${vo.title}</td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td colspan="3">${vo.content}</td>
+			</tr>
+			<tr>
+				<td>작성자</td>
+				<td colspan="3">${vo.writer}</td>
+			</tr>
+			<tr>
+				<td>작성일</td>
+				<td><fmt:formatDate pattern="yyyy-MM-dd"
+						value="${vo.writerDate}" /></td>
+				<td>조회수</td>
+				<td>${vo.clickCnt}</td>
+			</tr>
+			<tr>
+				<td>이미지</td>
+				<td colspan="3"><c:if test="${!empty vo.image }">
+						<img width="150px" src="images/${vo.image }">
+					</c:if></td>
+			</tr>
+			<tr>
+				<td colspan="4" align="center"><c:choose>
+						<c:when test="${logName eq vo.writer }">
+							<input type="submit" value="수정">
+							<input type="button" onclick="deleteFun()" value="삭제">
+						</c:when>
+						<c:otherwise>
+							<input type="submit" disabled value="수정">
+							<input type="button" disabled onclick="deleteFun()" value="삭제">
+						</c:otherwise>
+					</c:choose></td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+<br>
+<div id="input">
+	댓글내용: <input type="text" id="content">
+	<button id="addReply">등록</button>
 	<p />
-	</div>
-	<p>댓글목록</p>
-	<div id="show">
-		<ul id="list">
-			<!-- <li><span></span></li> -->
-			
-		</ul>
-	</div>
-	<!-- 페이징 처리. -->
-	<!-- ${page} -->
-	<div id="paging" class="pagination">
-		
-	</div>
-	<a href="boardList.do">글목록으로</a>
-	<script src="js/service.js"></script>
-	<script>
+</div>
+<p>댓글목록</p>
+<div id="show">
+	<ul id="list">
+		<!-- <li><span></span></li> -->
+
+	</ul>
+</div>
+<!-- 페이징 처리. -->
+<!-- ${page} -->
+<div id="paging" class="pagination"></div>
+<a href="boardList.do">글목록으로</a>
+<script src="js/service.js"></script>
+<script>
 	function deleteFun(){
 		console.log(window);
 		document.forms.myForm.action = "removeForm.do";
@@ -118,7 +117,7 @@
 	}
 	
 	// Ajax호출.
-	function showList(page){
+	function showList_backup(page){
 		ul.innerHTML = '';
 		const xhtp = new XMLHttpRequest();
 		xhtp.open('get', 'replyListJson.do?bno='+ bno + "&page=" + page)
@@ -131,6 +130,19 @@
 			})
 		}
 	} // end of showList.
+	function showList(page){
+		ul.innerHTML = '';
+		fetch('replyListJson.do?bno='+ bno + "&page=" + page)
+		.then(str => str.json())
+		.then(result => {
+			result.forEach(reply => {
+				let li = makeLi(reply);
+				ul.appendChild(li);
+			})
+			console.log(result);
+		})
+		.catch(reject => console.log(reject));
+	}
 	showList(pageInfo);
 
 	// 페이지 생성.
@@ -181,23 +193,49 @@
 		let reply = document.querySelector('#content').value;
 		let replyer = '${logId}';
 		
-		const addAjax = new XMLHttpRequest();
-		addAjax.open('get', 'addReplyJson.do?reply='+reply+'&replyer='+replyer+'&bno='+bno);
-		addAjax.send();
-		addAjax.onload = function(){
-			let result = JSON.parse(addAjax.responseText);
+		// fetch함수.
+		fetch('addReplyJson.do', {
+			method: 'post',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			body: 'reply='+reply+'&replyer='+replyer+'&bno='+bno
+		})
+		.then(str => str.json())
+		.then(result => {
 			if (result.retCode == 'OK'){
-				let reply = result.vo;
-				let li = makeLi(reply);
-				ul.appendChild(li);
+					alert('처리성공.')
+					pageInfo = 1;
+					showList(pageInfo);
+					pagingList();
+					
+					document.querySelector('#content').value = '';
+				} else if(result.retCode == 'NG'){
+					alert('처리중 에러');
+				}
+		})
+		.catch(err => console.error(err));
+		
+		// const addAjax = new XMLHttpRequest();
+		// addAjax.open('post', 'addReplyJson.do');
+		// addAjax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+		// addAjax.send('reply='+reply+'&replyer='+replyer+'&bno='+bno);
+		// addAjax.onload = function(){
+		// 	let result = JSON.parse(addAjax.responseText);
+		// 	if (result.retCode == 'OK'){
+		// 	//	let reply = result.vo;
+		// 	//	let li = makeLi(reply);
+		// 	//	ul.appendChild(li);
 				
-				showList(1);
-				pagingList(1);
+		// 		alert('처리성공.')
+		// 		pageInfo = 1;
+		// 		showList(pageInfo);
+		// 		pagingList();
 				
-			} else if(result.retCode == 'NG'){
-				alert('처리중 에러');
-			}
-			document.querySelector('#content').value = '';
-		}
+		// 		document.querySelector('#content').value = '';
+		// 	} else if(result.retCode == 'NG'){
+		// 		alert('처리중 에러');
+		// 	}
+		// } // end of onload.
 	}
 	</script>

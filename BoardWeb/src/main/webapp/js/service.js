@@ -16,25 +16,24 @@ function makeLi(reply = {}) {
 
 	// 삭제버튼.
 	let btn = document.createElement('button');
-	btn.addEventListener('click', function() {
+	btn.addEventListener('click', async function() {
 		// 댓글번호 삭제 후 화면에서 제거.
-		let delHtp = new XMLHttpRequest();
-		delHtp.open('get', 'delReplyJson.do?rno=' + reply.replyNo)
-		delHtp.send()
-		delHtp.onload = function() {
-			let result = JSON.parse(delHtp.responseText)
-			if (result.retCode == 'OK') {
+		const promise = await fetch('delReplyJson.do?rno=' + reply.replyNo);
+		const json = await promise.json();
+		try {
+			if (json.retCode == 'OK') {
 				alert('삭제됨.');
-				// btn.parentElement.remove();
-				// bno, page => 페이지리스트, 페이징리스트.
 				showList(pageInfo);
 			} else if (result.retCode == 'NG') {
 				alert('처리중 에러.');
 			}
+		} catch (err) {
+			console.error('예외=>',err)
 		}
+
 	})
 	btn.innerText = '삭제';
-	li.appendChild(btn);
-	
+	li.appendChild(btn); // end.
+
 	return li;
 }

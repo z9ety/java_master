@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>basic.html</title>
+<script src="../js/jquery-3.7.1.min.js"></script>
+<script>
+	// javascript 객체(속성, 메소드) vs. jquery 객체(메소드 기반).
+	$(document).ready(function () {
+		const obj = {}
+
+		// $("선택자");
+		let ul = $('<ul />').append($('<li />').text('Apple'),
+				$('<li />').text('Banana')
+		);
+		ul.attr('class', 'parent');
+		console.log(ul);
+		$('#show').append(ul); // appendChild동일.
+		
+		// java스크립트...
+		let fruits = ['Apple', 'Banana'];
+		let ult = document.createElement('ul');
+		let dom = document.querySelector('#dom');
+		dom.append(ult);
+		for(let fruit of fruits){
+			let lit = document.createElement('li');
+			lit.innerText = fruit;
+			ult.append(lit);
+		}
+		// onclick: $(객체).on('이벤트유형', '실행함수')
+		$('#show li').on('mouseover', function(){
+			$(this).css('background', 'yellow');
+		})
+		$('#show li').on('mouseout', function(){
+			$(this).css('background', '');
+			console.log($(this));
+		})
+		
+	});
+		
+</script>
+</head>
+<body>
+	<div id="show"></div>
+
+	<div id="dom"></div>
+</body>
+</html>
