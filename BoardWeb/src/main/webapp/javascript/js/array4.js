@@ -24,3 +24,10 @@ if(twoname){
 }
 // 4. {no: 1, name: '펭수'} 형태의 값을 가지는 배열을 생성. 결과값을 strAry에 대입.
 // map
+const Ary = strAry.map((item, idx) =>{
+    return{
+        no: idx,
+        name: item
+    }
+})
+console.log(Ary);

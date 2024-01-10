@@ -7,8 +7,15 @@ numAry.push(30);
 numAry.unshift(40);
 numAry.pop(); // 마지막 요소 삭제.
 numAry.shift(); // 첫 요소 삭제.
+// splice() : 추가, 변경, 삭제
+numAry.splice(1, 2);
+numAry.splice(1, 1, 40, 50);
+numAry.splice(1, 0, 20, 30);
 // numAry.splice(0);
-// numAry.length = 10;
+
+
+// numAry.length = 0; // 삭제
+// numAry.length = 10 // 변경
 
 const numAry2 = [50, 60];
 

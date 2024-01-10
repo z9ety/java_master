@@ -22,15 +22,14 @@
 				//입력항목 초기화.
 				$('input[name="memberId"]').val('');
 			})
-			// 전체 체크
-			$('thead').find('th:last-child').$('input').on('change', function() {
-				$('input:has(checkbox)').attr('checked')
+			// 전체 체크/해제
+			$('thead input[type="checkbox"]').on('change', function() {
+					$('tbody input[type="checkbox"]').prop('checked', this.checked);
 			})
 			// 체크 항목 삭제.
 			$('#delSelected').on('click', function(){
-				$(':checked').parentsUntil('#list').remove();
+				$('#list input[type="checkbox"]:checked').parentsUntil('#list').remove();
 			})
-			
         })
     </script>
 </head>

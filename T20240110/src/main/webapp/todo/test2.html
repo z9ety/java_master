@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>test2</title>
+</head>
+
+<body>
+	<table border="1">
+		<thead id="theader"></thead>
+		<tbody id="tbody"></tbody>
+	</table>
+	<!--문제2 -->
+	<!-- 2024년 1월 달력을 출력하세요. cal.show() 메소드를 호출. -->
+	<script>
+
+		const cal = {
+			weeks: ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat'],
+			show: function () {
+				this.makeTitle(this.weeks, document.getElementById('theader'));
+				this.makeBody(document.getElementById('tbody'));
+			},
+			makeTitle: function (weeks, pos) {
+				let tr = document.createElement('tr');
+				weeks.forEach(day => {
+					let th = document.createElement('th');
+					th.innerText = day;
+					tr.appendChild(th);
+				});
+				pos.appendChild(tr);
+			},
+			makeBody: function (pos) {
+				let tr = document.createElement('tr');
+				let firstDay = 1;
+				for (let i = 0; i < firstDay; i++) {
+					let td = document.createElement('td');
+					td.innerText = "";
+					tr.appendChild(td);
+				}
+				let lastDate = 31;
+				for (let i = 1; i <= lastDate; i++) {
+					let td = document.createElement('td');
+					td.innerText = i;
+					tr.appendChild(td);
+					if ((i + firstDay) % 7 == 0) {
+						tr = document.createElement('tr');
+					}
+					pos.appendChild(tr);
+				}
+			}
+		}
+		cal.show();
+	</script>
+</body>
+
+</html>
